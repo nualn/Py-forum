@@ -32,3 +32,8 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Registration failed")
+            
+@app.route("/logout")
+def logout():
+    users.logout()
+    return redirect("/")

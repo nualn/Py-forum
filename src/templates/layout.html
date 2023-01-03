@@ -2,6 +2,11 @@
 <title>ChatApp - {% block title %}{% endblock %}</title>
 <h1>ChatApp</h1>
 <a href="/">Front Page</a>
+{% if session.username %}
+Logged in as {{ session.username }}
+<a href="/logout">Log out</a>
+{% else %}
 <a href="/login">Log in</a>
+{% endif %}
 <hr>
 {% block content %}{% endblock %}
