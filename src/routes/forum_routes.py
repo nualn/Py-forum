@@ -1,5 +1,6 @@
-from app import app
 from flask import render_template, request, redirect
+
+from app import app
 from controllers import users, forums
 
 @app.route("/forums", methods=["GET", "POST"])
@@ -17,6 +18,8 @@ def forums_handler():
             return redirect("/forums")
         else:
             return render_template("error.html", message="Forum creation failed")
+    
+    return render_template("error.html", message="Invalid request method")
 
 @app.route("/forums/<int:forum_id>", methods=["DELETE", "PUT"])
 def forum(forum_id):
@@ -26,13 +29,11 @@ def forum(forum_id):
     if request.method == "DELETE":
         if forums.delete_forum(forum_id):
             return redirect("/forums")
-        else:
-            return render_template("error.html", message="Forum deletion failed")
+        return render_template("error.html", message="Forum deletion failed")
 
     if request.method == "PUT":
         name = request.form["name"]
         description = request.form["description"]
         if forums.update_forum(forum_id, name, description):
             return redirect("/forums")
-        else:
-            return render_template("error.html", message="Forum update failed")
+        return render_template("error.html", message="Forum update failed")

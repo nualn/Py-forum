@@ -1,5 +1,6 @@
-from app import app
 from flask import render_template
+
+from app import app
 from controllers import profile
 
 @app.route("/users/<int:user_id>/profile", methods=["GET"])

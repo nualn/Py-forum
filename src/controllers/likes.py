@@ -1,5 +1,5 @@
-from db import db
 from flask import session
+from db import db
 
 def like_post(post_id):
     try:
@@ -12,7 +12,7 @@ def like_post(post_id):
         return True
     except:
         return False
-    
+
 def unlike_post(post_id):
     try:
         sql = "DELETE FROM Likes_posts WHERE user_id=:user_id AND post_id=:post_id"

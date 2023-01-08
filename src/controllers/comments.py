@@ -1,5 +1,5 @@
-from db import db
 from flask import session
+from db import db
 
 def get_comments_by_post(post_id):
     sql = """

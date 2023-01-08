@@ -1,23 +1,24 @@
 import secrets
-from db import db
 from flask import session, request, abort
 from werkzeug.security import check_password_hash, generate_password_hash
+from db import db
 
 def login(username, password):
     sql = "SELECT id, username, password, is_admin FROM Users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
+
     if not user:
         return False
-    else:
-        if check_password_hash(user.password, password):
-            session["user_id"] = user.id
-            session["username"] = user.username
-            session["is_admin"] = user.is_admin
-            session["csrf_token"] = secrets.token_hex(16)
-            return True
-        else:
-            return False
+
+    if check_password_hash(user.password, password):
+        session["user_id"] = user.id
+        session["username"] = user.username
+        session["is_admin"] = user.is_admin
+        session["csrf_token"] = secrets.token_hex(16)
+        return True
+
+    return False
 
 def register(username, password):
     hash_value = generate_password_hash(password)
@@ -30,7 +31,7 @@ def register(username, password):
     return login(username, password)
 
 def logout():
-    del session["user_id"] 
+    del session["user_id"]
     del session["username"]
     del session["is_admin"]
     del session["csrf_token"]
