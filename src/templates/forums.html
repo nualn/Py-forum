@@ -3,15 +3,19 @@
 {% block content %}
     <h2>Forums</h2>
     {% if session.is_admin %}
-        <h3>Create a new forum</h3>
-        <form action="/forums" method="POST">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name">
-            <label for="description">Description</label>
-            <input type="text" name="description" id="description">
-            <input type="submit" value="Create">
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-        </form>
+        <div class="creation">
+            <h3>Create a new forum</h3>
+            <form class="create-form" action="/forums" method="POST">
+                <label for="name">Name: </label>
+                <input type="text" name="name" id="name">
+                <br/>
+                <label for="description">Description: </label>
+                <textarea type="text" name="description" id="description"></textarea>
+                <br/>
+                <input class="create-button" type="submit" value="Create">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            </form>
+        </div>
     {% endif %}
     <ul>
         {% for forum in forums %}

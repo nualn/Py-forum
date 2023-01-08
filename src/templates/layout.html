@@ -1,12 +1,28 @@
 <!doctype html>
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>ChatApp - {% block title %}{% endblock %}</title>
-<h1>ChatApp</h1>
-<a href="/">Front Page</a>
-{% if session.username %}
-Logged in as <a href="/users/{{session.user_id}}/profile">{{ session.username }}</a>
-<a href="/logout">Log out</a>
-{% else %}
-<a href="/login">Log in</a>
-{% endif %}
-<hr>
-{% block content %}{% endblock %}
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="ChatApp Logo" />
+    </div>
+    <br/>
+    <div class="nav"> 
+        <a class="box" href="/">Front Page</a>
+        {% if session.username %}
+        <div class="login">
+            <div class="box">
+                Logged in as <a href="/users/{{session.user_id}}/profile">{{ session.username }}</a>
+            </div>
+            <a class="box" href="/logout">Log out</a>
+            {% else %}
+            <a class="box" href="/login">Log in</a>
+            {% endif %}
+        </div>
+    </div>
+    <br/>
+    <hr>
+    {% block content %}{% endblock %}
+    <div class="footer"/>
+</body>

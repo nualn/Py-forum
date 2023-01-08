@@ -1,0 +1,157 @@
+* {
+    box-sizing: border-box;
+    color: white;
+}
+
+html {
+    font-size: 16px;
+    background-color: black;
+}   
+
+body {
+    margin: auto;
+    max-width: 50em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    overflow-y: scroll;
+}
+
+h3 {
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+.header {
+    background: darkcyan;
+    font-weight: bold;
+    padding: 1em 2em;
+    font-size: 1.5em;
+    color: white;
+    text-align: center;
+}
+
+.footer {
+    background: darkcyan;
+    font-weight: bold;
+    padding: 1em 2em;
+    margin-top: 0.5em;
+    font-size: 1.5em;
+    color: white;
+    text-align: center;
+}
+
+form {
+    margin: 0 0.5em;
+}
+
+input[type=text], input[type=password] {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: medium;
+    color: black;
+    margin: 0.5em;
+    padding: 0.5em;
+    width: 95%;
+}
+
+label {
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+.create-button {
+    background: rgb(75, 75, 75);
+    border: 1px solid rgb(50, 50, 50);
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+textarea {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    color: black;
+    margin: 0.5em;
+    padding: 0.5em;
+    height: 10em;
+    width: 95%;
+    resize: vertical;
+    font-size: medium;
+}
+
+.creation {
+    display: flexbox;
+    background: rgb(50, 50, 50);
+    width: 100%;
+    margin: 0.5em, 0;
+    padding: 0.5em;
+}
+
+.post, .comment {
+    display: flexbox;
+    border: 1px solid black;
+    background-color: rgb(50, 50, 50);
+    width: 100%;
+    margin: 0.5em 0;
+}
+
+.post-bottom, .comment-bottom {
+    display: flex;
+    align-content: flex-start;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding-bottom: 0.5em;
+}
+
+.comment-top {
+    display: flex;
+    align-content: flex-start;
+    background-color: rgb(75, 75, 75);
+    padding: 0.5em;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.comment-body, .post-body {
+    margin: 0.5em;
+    padding: 0.5em;
+    overflow-x: wrap;
+}
+
+.box {
+    display: flexbox;
+    background-color: rgb(75, 75, 75);
+    padding: 0.5em;
+    margin: 0 0.5em;
+    height: 100%;
+}
+
+.unlike-button {
+    display: flexbox;
+    background-color: darkcyan;
+    border: 1px solid rgb(50, 50, 50);
+    height: 100%;
+    padding: 0.5em;
+    margin: 0
+} 
+
+.like-button, .delete-button {
+    display: flexbox;
+    background-color: rgb(75, 75, 75);
+    border: 1px solid rgb(50, 50, 50);
+    height: 100%;
+    padding: 0.5em;
+    margin: 0;
+}
+
+.nav {
+    display: flex;
+    height: 100%;
+    padding: 0.5em;
+    margin: 0;
+    width: 100%;
+}
+
+.login {
+    display: flex;
+    justify-content: end;
+    width: 85%;
+}

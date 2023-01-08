@@ -1,65 +1,69 @@
 {% extends "layout.html" %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.body }}</p>
-    <p>{{ post.comment_count }} comments</p>
-    <p>{{ post.author }}</p>
-    <p>
-        {{ post.like_count }} likes
-        {% if session.user_id %}
-            {% if post.liked_by_curr_user %}
-                <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/unlike" method="POST">
-                    <input type="submit"  value="Unlike">
-                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                </form>
-            {% else %}
-                <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/like" method="POST">
-                    <input type="submit"  value="Like">
-                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                </form>
-            {% endif %}
-        {% endif %}
-    </p>
-    {% if session.user_id == post.user_id %}
-        <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/delete" method="POST">
-            <input type="submit"  value="Delete">
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-        </form>
-    {% endif %}
-    <br/>
-    {% for comment in comments %}
-        <div>
-            <p>{{ comment.body }}</p>
-            {{ comment.author }}
-            {{ comment.like_count }} likes
+    <div class="post" >
+        <h3>{{ post.title }}</h3>
+        <p class="post-body" >{{ post.body }}</p>
+        <div class="post-bottom" >
+            <div class="box">by <a href="/users/{{ post.user_id }}/profile" >{{ post.author }}</a></div>
             {% if session.user_id %}
-                {% if comment.liked_by_curr_user %}
-                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/{{comment.id}}/unlike" method="POST">
-                        <input type="submit"  value="Unlike">
+                {% if post.liked_by_curr_user %}
+                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/unlike" method="POST">
+                        <input class="unlike-button" type="submit"  value="{{ post.like_count }} likes" >
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                     </form>
                 {% else %}
-                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/{{comment.id}}/like" method="POST">
-                        <input type="submit"  value="Like">
+                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/like" method="POST">
+                        <input class="like-button" type="submit"  value="{{ post.like_count }} likes">
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                     </form>
                 {% endif %}
             {% endif %}
-            {% if session.user_id == comment.user_id %}
-                <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/{{comment.id}}/delete" method="POST">
-                    <input type="submit" value="Delete">
+            <div class="box" >{{ post.comment_count }} comments</div>
+            {% if session.user_id == post.user_id %}
+                <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/delete" method="POST">
+                    <input class="delete-button" type="submit"  value="Delete">
                     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                 </form>
             {% endif %}
         </div>
+    </div>
+    <h3>Comments:</h3>
+    {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-top" ><a href="/users/{{ post.user_id }}/profile" >{{ post.author }}</a>:</div>
+            <p class="comment-body" >{{ comment.body }}</p>
+            <div class="comment-bottom">
+                {% if session.user_id %}
+                    {% if comment.liked_by_curr_user %}
+                        <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/{{comment.id}}/unlike" method="POST">
+                            <input class="unlike-button" type="submit"  value="{{ comment.like_count }} likes">
+                            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                        </form>
+                    {% else %}
+                        <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/{{comment.id}}/like" method="POST">
+                            <input class="like-button" type="submit"  value="{{ comment.like_count }} likes">
+                            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                        </form>
+                    {% endif %}
+                {% endif %}
+                {% if session.user_id == comment.user_id %}
+                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/{{comment.id}}/delete" method="POST">
+                        <input class="delete-button" type="submit" value="Delete">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                    </form>
+                {% endif %}
+            </div>
+        </div>
     {% endfor %}
     {% if session.username %}
-        <h3>New comment</h3>
-        <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments" method="POST">
-            <input type="text" name="body" id="body">
-            <input type="submit" value="Comment">
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-        </form>
+        <div class="creation">
+            <h3>New comment</h3>
+            <form class="create-form" action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments" method="POST">
+                <input type="text" name="body" id="body">
+                <input class="create-button" type="submit" value="Comment">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            </form>
+        </div>
     {% endif %}
 {% endblock %}

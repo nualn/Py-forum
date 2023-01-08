@@ -1,61 +1,59 @@
 {% extends "layout.html" %}
 {% block title %}{{ user.username }}{% endblock %}
 {% block content %}
-    <h2>{{ user.username }}</h2>
-    <h3>Posts by {{ user.username }}</h3>
+    <h2>{{ user.username }}'s profile</h2>
+    <h3>Posts by {{ user.username }}:</h3>
     {% for post in posts %}
-        <div>
-            <h4>{{ post.title }}</h4>
-            <p>{{ post.body }}</p>
-            <div>by {{ post.author }}</div>
-            <div>
-                {{ post.like_count }} likes
+        <div class="post">
+            <h3>{{ post.title }}</h3>
+            <p class="post-body" >{{ post.body }}</p>
+            <div class="post-bottom" >
                 {% if session.user_id %}
                     {% if post.liked_by_curr_user %}
                         <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/unlike" method="POST">
-                            <input type="submit"  value="Unlike">
+                            <input class="unlike-button" type="submit"  value="{{ post.like_count }} likes">
                             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         </form>
                     {% else %}
                         <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/like" method="POST">
-                            <input type="submit"  value="Like">
+                            <input class="like-button" type="submit"  value="{{ post.like_count }} likes">
                             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         </form>
                     {% endif %}
                 {% endif %}
+                <a class="box" href="/forums/{{post.forum_id}}/posts/{{ post.id }}/comments">{{ post.comment_count }} comments</a>
                 {% if session.user_id == post.user_id %}
                     <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/delete" method="POST">
-                        <input type="submit"  value="Delete">
+                        <input class="delete-button" type="submit"  value="Delete">
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                     </form>
                 {% endif %}
             </div>
         </div>
     {% endfor %}
-    <h3>Comments by {{ user.username}}</h3>
+    <br/>
+    <h3>Comments by {{ user.username}}:</h3>
     {% for comment in comments %}
-        <div>
-            <h4>{{ comment.post_title }}</h4>
-            <p>{{ comment.body }}</p>
-            <div>by {{ comment.author }}</div>
-            <div>
-                {{ comment.like_count }} likes
+        <div class="comment" >
+            <h3>On <a href="/forums/{{comment.forum_id}}/posts/{{ comment.post_id }}/comments">{{ comment.post_title }}</a></h3>
+            <p class="comment-body" >{{ comment.body }}</p>
+            <div class="post-bottom" >
                 {% if session.user_id %}
                     {% if comment.liked_by_curr_user %}
                         <form action="/forums/{{comment.forum_id}}/posts/{{comment.post_id}}/comments/{{comment.id}}/unlike" method="POST">
-                            <input type="submit"  value="Unlike">
+                            <input class="unlike-button" type="submit"  value="{{ comment.like_count }} likes">
                             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         </form>
                     {% else %}
                         <form action="/forums/{{comment.forum_id}}/posts/{{comment.post_id}}/comments/{{comment.id}}/like" method="POST">
-                            <input type="submit"  value="Like">
+                            <input class="like-button" type="submit"  value="{{ comment.like_count }} likes">
                             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         </form>
                     {% endif %}
                 {% endif %}
                 {% if session.user_id == comment.user_id %}
                     <form action="/forums/{{comment.forum_id}}/posts/{{comment.post_id}}/comments/{{comment.id}}/delete" method="POST">
-                        <input type="submit"  value="Delete">
+                        <input class="delete-button" type="submit"  value="Delete">
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                     </form>
                 {% endif %}

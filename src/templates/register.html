@@ -1,14 +1,16 @@
 {% extends "layout.html" %}
 {% block title %}Register{% endblock %}
 {% block content %}
-    <h2>Register</h2>
-    <form action="/register" method="POST">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username">
-        <label for="password">Password</label>
-        <input type="password" name="password1" id="password1">
-        <label for="password2">Repeat Password</label>
-        <input type="password" name="password2" id="password2">
-        <input type="submit" value="Register">
-    </form>
+    <div class="creation" >
+        <h3>Register</h3>
+        <form action="/register" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username">
+            <label for="password">Password:</label>
+            <input type="password" name="password1" id="password1">
+            <label for="password2">Repeat Password:</label>
+            <input type="password" name="password2" id="password2">
+            <input class="create-button" type="submit" value="Register">
+        </form>
+    </div>
 {% endblock %}

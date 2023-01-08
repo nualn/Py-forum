@@ -11,8 +11,8 @@ def get_posts_by_forum(forum_id):
             Posts.user_id,
             Users.username as author,
             count(Comments.post_id) as comment_count,
-            count(Likes_posts.post_id) / count(Comments.post_id) as like_count, 
-            Sum(CASE WHEN Likes_posts.user_id = :curr_user_id THEN 1 ELSE 0 END) / count(Comments.post_id) as liked_by_curr_user
+            count(distinct Likes_posts.user_id) as like_count, 
+            count(distinct Likes_posts.user_id = :curr_user_id) as liked_by_curr_user
         FROM
             Posts
             LEFT JOIN Users ON Users.id = Posts.user_id
@@ -40,8 +40,8 @@ def get_post(post_id):
             Posts.user_id,
             Users.username as author,
             count(Comments.post_id) as comment_count,
-            count(Likes_posts.post_id) / count(Comments.post_id) as like_count, 
-            Sum(CASE WHEN Likes_posts.user_id = :curr_user_id THEN 1 ELSE 0 END) / count(Comments.post_id) as liked_by_curr_user
+            count(distinct Likes_posts.user_id) as like_count, 
+            count(distinct Likes_posts.user_id = :curr_user_id) as liked_by_curr_user
         FROM
             Posts
             LEFT JOIN Users ON Users.id = Posts.user_id

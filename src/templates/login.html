@@ -1,13 +1,18 @@
 {% extends "layout.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <h2>Log in</h2>
-    <form action="/login" method="POST">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-        <input type="submit" value="Log in">
-    </form>
-    <a href="/register">Register</href>
+    <div class="creation">
+        <h3>Log in</h3>
+        <form action="/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+            <input class="create-button" type="submit" value="Log in">
+        </form>
+        <br/>
+        <div class="post-bottom" >
+            <a class="box" href="/register">Register</a>
+        </div>   
+    </div>
 {% endblock %}

@@ -9,12 +9,9 @@ def get_comments_by_post(post_id):
             Comments.created_at,
             Comments.user_id,
             Users.username as author,
-            count(Likes_comments.comment_id) as like_count,
-            Sum(
-              CASE
-                WHEN Likes_comments.user_id = :curr_user_id THEN 1
-                ELSE 0
-              END
+            count(distinct Likes_comments.user_id) as like_count,
+            count(
+                distinct Likes_comments.user_id = :curr_user_id
             ) as liked_by_curr_user
         FROM
             Comments
