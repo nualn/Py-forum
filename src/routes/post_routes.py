@@ -28,7 +28,7 @@ def post_handler(forum_id, post_id):
     users.check_csrf()
 
     if posts.delete_post(post_id):
-        return redirect(url_for("posts_handler", forum_id=forum_id))
+        return redirect(request.referrer)
     return render_template("error.html", message="Post deletion failed")
 
 @app.route("/forums/<int:forum_id>/posts/<int:post_id>/like", methods=["POST"])
@@ -36,7 +36,7 @@ def post_like_handler(forum_id, post_id):
     users.check_logged_in()
     users.check_csrf()
     if likes.like_post(post_id):
-        return redirect(url_for("posts_handler", forum_id=forum_id))
+        return redirect(request.referrer)
     return render_template("error.html", message="Post like failed")
 
 @app.route("/forums/<int:forum_id>/posts/<int:post_id>/unlike", methods=["POST"])
@@ -44,5 +44,5 @@ def post_unlike_handler(forum_id, post_id):
     users.check_logged_in()
     users.check_csrf()
     if likes.unlike_post(post_id):
-        return redirect(url_for("posts_handler", forum_id=forum_id))
+        return redirect(request.referrer)
     return render_template("error.html", message="Post unlike failed")

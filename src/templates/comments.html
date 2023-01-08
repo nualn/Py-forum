@@ -8,12 +8,12 @@
             <div class="box">by <a href="/users/{{ post.user_id }}/profile" >{{ post.author }}</a></div>
             {% if session.user_id %}
                 {% if post.liked_by_curr_user %}
-                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/unlike" method="POST">
+                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/unlike" method="POST">
                         <input class="unlike-button" type="submit"  value="{{ post.like_count }} likes" >
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                     </form>
                 {% else %}
-                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/like" method="POST">
+                    <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/like" method="POST">
                         <input class="like-button" type="submit"  value="{{ post.like_count }} likes">
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                     </form>

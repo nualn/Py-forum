@@ -28,26 +28,9 @@ def comment_handler(forum_id, post_id, comment_id):
     users.check_csrf()
 
     if comments.delete_comment(comment_id):
-        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
+        return redirect(request.referrer)
     else:
         return render_template("error.html", message="Comment deletion failed")
-
-@app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments/like", methods=["POST"])
-def comments_post_like_handler(forum_id, post_id):
-    users.check_logged_in()
-    users.check_csrf()
-    if likes.like_post(post_id):
-        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
-    else:
-        return render_template("error.html", message="Post like failed")
-
-@app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments/unlike", methods=["POST"])
-def comments_post_unlike_handler(forum_id, post_id):
-    users.check_logged_in()
-    users.check_csrf()
-    if likes.unlike_post(post_id):
-        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
-    return render_template("error.html", message="Post unlike failed")
 
 @app.route(
     "/forums/<int:forum_id>/posts/<int:post_id>/comments/<int:comment_id>/like",
@@ -57,7 +40,7 @@ def comment_like_handler(forum_id, post_id, comment_id):
     users.check_logged_in()
     users.check_csrf()
     if likes.like_comment(comment_id):
-        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
+        return redirect(request.referrer)
     return render_template("error.html", message="Comment like failed")
 
 @app.route(
@@ -68,5 +51,5 @@ def comment_unlike_handler(forum_id, post_id, comment_id):
     users.check_logged_in()
     users.check_csrf()
     if likes.unlike_comment(comment_id):
-        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
+        return redirect(request.referrer)
     return render_template("error.html", message="Comment unlike failed")
