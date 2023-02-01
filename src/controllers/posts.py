@@ -3,21 +3,41 @@ from flask import session
 
 def get_posts_by_forum(forum_id):
     sql = """
-        SELECT id, title, body, created_at, modified_at, user_id 
+        SELECT  Posts.id, 
+                Posts.title, 
+                Posts.body, 
+                Posts.created_at, 
+                Posts.user_id,
+                Users.username as author,
+                count(Comments.post_id) as comment_count
         FROM Posts 
-        WHERE forum_id=:forum_id 
-        ORDER BY modified_at DESC;
+        	LEFT JOIN Comments ON Comments.post_id = Posts.id
+            LEFT JOIN Users ON Users.id = Posts.user_id
+        WHERE forum_id=:forum_id
+        GROUP BY Posts.id, Users.username
+        ORDER BY Posts.created_at DESC; 
     """
     result = db.session.execute(sql, {"forum_id":forum_id})
     return result.fetchall()
 
 def get_post(post_id):
     sql = """
-        SELECT id, title, body, created_at, modified_at, user_id, forum_id 
+        SELECT  Posts.id, 
+                Posts.title, 
+                Posts.body, 
+                Posts.created_at, 
+                Posts.forum_id,
+                Posts.user_id,
+                Users.username as author,
+                count(Comments.post_id) as comment_count
         FROM Posts 
-        WHERE id=:id
+        	LEFT JOIN Comments ON Comments.post_id = Posts.id
+            LEFT JOIN Users ON Users.id = Posts.user_id
+        WHERE Posts.id=:post_id
+        GROUP BY Posts.id, Users.username
+        ORDER BY Posts.created_at DESC; 
     """
-    result = db.session.execute(sql, {"id": post_id})
+    result = db.session.execute(sql, {"post_id": post_id})
     return result.fetchone()
 
 def create_post(forum_id, title, body):

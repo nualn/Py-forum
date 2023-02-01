@@ -18,7 +18,8 @@
         <div>
             <h3>{{ post.title }}</h3>
             <p>{{ post.body }}</p>
-            <a href="/forums/{{forum.id}}/posts/{{ post.id }}/comments">View Post</a>
+            <a href="/forums/{{forum.id}}/posts/{{ post.id }}/comments">{{ post.comment_count }} comments</a>
+            <p> {{ post.author }} </p>
         </div>
     {% endfor %}
 {% endblock %}

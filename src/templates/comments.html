@@ -3,6 +3,8 @@
 {% block content %}
     <h2>{{ post.title }}</h2>
     <p>{{ post.body }}</p>
+    <p>{{ post.comment_count }} comments</p>
+    <p>{{ post.author }}</p>
     {% if session.user_id == post.user_id %}
         <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/delete" method="POST">
             <input type="submit"  value="Delete">
