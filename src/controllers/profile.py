@@ -4,12 +4,13 @@ from db import db
 def get_user_info(user_id):
     sql = """
         SELECT
-            Users.id,
-            Users.username
+            id,
+            username,
+            is_admin
         FROM
             Users
         WHERE
-            Users.id = :user_id
+            id = :user_id
     """
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchone()
