@@ -16,9 +16,8 @@ def forums_handler():
         description = request.form["description"]
         if forums.create_forum(name, description):
             return redirect("/forums")
-        else:
-            return render_template("error.html", message="Forum creation failed")
-    
+        return render_template("error.html", message="Forum creation failed")
+
     return render_template("error.html", message="Invalid request method")
 
 @app.route("/forums/<int:forum_id>/delete", methods=["POST"])
@@ -46,3 +45,5 @@ def forum_edit_handler(forum_id):
         if forums.update_forum(forum_id, name, description):
             return redirect("/forums")
         return render_template("error.html", message="Forum update failed")
+
+    return render_template("error.html", message="Invalid request method")

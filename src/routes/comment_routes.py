@@ -1,5 +1,6 @@
-from app import app
 from flask import render_template, request, redirect, url_for
+
+from app import app
 from controllers import users, posts, comments, likes
 
 @app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments", methods=["GET", "POST"])
@@ -12,11 +13,13 @@ def comments_handler(forum_id, post_id):
     if request.method == "POST":
         users.check_logged_in()
         users.check_csrf()
+
         body = request.form["body"]
         if comments.create_comment(post_id, body):
             return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
-        else:
-            return render_template("error.html", message="Comment creation failed")
+        return render_template("error.html", message="Comment creation failed")
+
+    return render_template("error.html", message="Invalid request method")
 
 @app.route(
     "/forums/<int:forum_id>/posts/<int:post_id>/comments/<int:comment_id>/delete",
@@ -29,8 +32,7 @@ def comment_handler(forum_id, post_id, comment_id):
 
     if comments.delete_comment(comment_id):
         return redirect(request.referrer)
-    else:
-        return render_template("error.html", message="Comment deletion failed")
+    return render_template("error.html", message="Comment deletion failed")
 
 @app.route(
     "/forums/<int:forum_id>/posts/<int:post_id>/comments/<int:comment_id>/like",
