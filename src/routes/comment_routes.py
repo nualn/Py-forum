@@ -46,3 +46,21 @@ def comments_post_unlike_handler(forum_id, post_id):
         return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
     else:
         return render_template("error.html", message="Post unlike failed")
+
+@app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments/<int:comment_id>/like", methods=["POST"])
+def comment_like_handler(forum_id, post_id, comment_id):
+    users.check_logged_in()
+    users.check_csrf()
+    if likes.like_comment(comment_id):
+        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
+    else:
+        return render_template("error.html", message="Comment like failed")
+
+@app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments/<int:comment_id>/unlike", methods=["POST"])
+def comment_unlike_handler(forum_id, post_id, comment_id):
+    users.check_logged_in()
+    users.check_csrf()
+    if likes.unlike_comment(comment_id):
+        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
+    else:
+        return render_template("error.html", message="Comment unlike failed")
