@@ -52,6 +52,8 @@ def get_post(post_id):
         GROUP BY
             Posts.id,
             Users.username
+        ORDER BY 
+            Posts.created_at DESC
     """
     result = db.session.execute(sql, {"post_id": post_id, "curr_user_id":session.get("user_id")})
     return result.fetchone()
