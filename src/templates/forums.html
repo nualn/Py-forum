@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Forums{% endblock %}
+{% block content %}
+    <h2>Forums</h2>
+    {% if session.is_admin %}
+        <h3>Create a new forum</h3>
+        <form action="/forums" method="POST">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name">
+            <label for="description">Description</label>
+            <input type="text" name="description" id="description">
+            <input type="submit" value="Create">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+    {% endif %}
+    <ul>
+        {% for forum in forums %}
+            <li>
+                <a 
+                    href="/forums/{{ forum.id }}" 
+                    title="{{ forum.description }}"
+                >
+                    {{ forum.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
