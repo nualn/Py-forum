@@ -17,16 +17,25 @@
             </form>
         </div>
     {% endif %}
-    <ul>
-        {% for forum in forums %}
-            <li>
+    {% for forum in forums %}
+        <div class="forum" >
+            <div class="forum-body" >
                 <a 
                     href="/forums/{{ forum.id }}/posts" 
                     title="{{ forum.description }}"
                 >
                     {{ forum.name }}
                 </a>
-            </li>
-        {% endfor %}
-    </ul>
+            </div>
+            {% if session.is_admin %}
+            <div class="forum-bottom">
+                <form action="/forums/{{ forum.id }}/delete" method="POST">
+                    <input class="delete-button" type="submit" value="Delete">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                </form>
+                <div class="box"><a href="/forums/{{ forum.id }}/edit" > Edit </a></div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

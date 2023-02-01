@@ -21,17 +21,26 @@ def forums_handler():
     
     return render_template("error.html", message="Invalid request method")
 
-@app.route("/forums/<int:forum_id>", methods=["DELETE", "PUT"])
-def forum(forum_id):
+@app.route("/forums/<int:forum_id>/delete", methods=["POST"])
+def forum_delete_handler(forum_id):
     users.check_csrf()
     users.check_admin()
 
-    if request.method == "DELETE":
-        if forums.delete_forum(forum_id):
-            return redirect("/forums")
-        return render_template("error.html", message="Forum deletion failed")
+    if forums.delete_forum(forum_id):
+        return redirect("/forums")
+    return render_template("error.html", message="Forum deletion failed")
 
-    if request.method == "PUT":
+@app.route("/forums/<int:forum_id>/edit", methods=["GET", "POST"])
+def forum_edit_handler(forum_id):
+    users.check_admin()
+
+    if request.method == "GET":
+        forum = forums.get_forum(forum_id)
+        return render_template("forum_edit.html", forum=forum)
+
+    users.check_csrf()
+
+    if request.method == "POST":
         name = request.form["name"]
         description = request.form["description"]
         if forums.update_forum(forum_id, name, description):

@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Edit forum{% endblock %}
+{% block content %}
+    <h2>Edit {{ forum.name }} forum</h2>
+    {% if session.is_admin %}
+        <div class="creation">
+            <form class="create-form" action="/forums/{{ forum.id }}/edit" method="POST">
+                <label for="name">Name: </label>
+                <input type="text" name="name" id="name" value="{{ forum.name }}">
+                <br/>
+                <label for="description">Description: </label>
+                <textarea type="text" name="description" id="description">{{ forum.description }}</textarea>
+                <br/>
+                <input class="create-button" type="submit" value="Edit">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

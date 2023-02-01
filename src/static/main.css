@@ -83,7 +83,7 @@ textarea {
     padding: 0.5em;
 }
 
-.post, .comment {
+.post, .comment, .forum {
     display: flexbox;
     border: 1px solid black;
     background-color: rgb(50, 50, 50);
@@ -91,7 +91,7 @@ textarea {
     margin: 0.5em 0;
 }
 
-.post-bottom, .comment-bottom {
+.post-bottom, .comment-bottom, .forum-bottom {
     display: flex;
     align-content: flex-start;
     width: 100%;
@@ -110,7 +110,7 @@ textarea {
     overflow: hidden;
 }
 
-.comment-body, .post-body {
+.comment-body, .post-body, .forum-body {
     margin: 0.5em;
     padding: 0.5em;
     overflow-x: wrap;
