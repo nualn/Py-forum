@@ -3,10 +3,14 @@ from flask import session
 
 def get_comments_by_post(post_id):
     sql = """
-        SELECT id, body, created_at, modified_at, user_id 
+        SELECT  id, 
+                body, 
+                created_at, 
+                modified_at, 
+                user_id 
         FROM Comments 
         WHERE post_id=:post_id
-        ORDER BY created_at DESC;
+        ORDER BY created_at ASC;
     """
     result = db.session.execute(sql, {"post_id":post_id})
     return result.fetchall()
