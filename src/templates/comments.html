@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.body }}</p>
+    {% if session.user_id == post.user_id %}
+        <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/delete" method="POST">
+            <input type="submit"  value="Delete">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+    {% endif %}
+    <br/>
+    {% for comment in comments %}
+        <div>
+            <p>{{ comment.body }}</p>
+            {% if session.user_id == comment.user_id %}
+                <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/{{comment.id}}/delete" method="POST">
+                    <input type="submit" value="Delete">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% if session.username %}
+        <h3>New comment</h3>
+        <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments" method="POST">
+            <input type="text" name="body" id="body">
+            <input type="submit" value="Comment">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+    {% endif %}
+{% endblock %}
