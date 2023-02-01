@@ -44,3 +44,11 @@ def check_admin():
     print(session["is_admin"])
     if not session["is_admin"]:
         abort(403)
+
+def check_logged_in():
+    if not session.get("user_id"):
+        abort(403)
+
+def check_owner(content_id):
+    if content_id != session["user_id"]:
+        abort(403)
