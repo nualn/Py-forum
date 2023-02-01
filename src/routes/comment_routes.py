@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, redirect, url_for
-from controllers import users, forums, posts, comments
+from controllers import users, posts, comments, likes
 
 @app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments", methods=["GET", "POST"])
 def comments_handler(forum_id, post_id):
@@ -28,3 +28,21 @@ def comment_handler(forum_id, post_id, comment_id):
         return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
     else:
         return render_template("error.html", message="Comment deletion failed")
+
+@app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments/like", methods=["POST"])
+def comments_post_like_handler(forum_id, post_id):
+    users.check_logged_in()
+    users.check_csrf()
+    if likes.like_post(post_id):
+        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
+    else:
+        return render_template("error.html", message="Post like failed")
+
+@app.route("/forums/<int:forum_id>/posts/<int:post_id>/comments/unlike", methods=["POST"])
+def comments_post_unlike_handler(forum_id, post_id):
+    users.check_logged_in()
+    users.check_csrf()
+    if likes.unlike_post(post_id):
+        return redirect(url_for("comments_handler", forum_id=forum_id, post_id=post_id))
+    else:
+        return render_template("error.html", message="Post unlike failed")
