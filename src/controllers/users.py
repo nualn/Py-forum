@@ -36,6 +36,15 @@ def logout():
     del session["is_admin"]
     del session["csrf_token"]
 
+def toggle_admin(user_id):
+    try:
+        sql = "UPDATE Users SET is_admin = NOT is_admin WHERE id=:user_id"
+        db.session.execute(sql, {"user_id":user_id})
+        db.session.commit()
+        return True
+    except:
+        return False
+
 def check_csrf():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
