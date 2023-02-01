@@ -20,6 +20,22 @@
             <p>{{ post.body }}</p>
             <a href="/forums/{{forum.id}}/posts/{{ post.id }}/comments">{{ post.comment_count }} comments</a>
             <p> {{ post.author }} </p>
+            <p>
+                {{ post.like_count }} likes
+                {% if session.user_id %}
+                    {% if post.liked_by_curr_user %}
+                        <form action="/forums/{{forum.id}}/posts/{{post.id}}/unlike" method="POST">
+                            <input type="submit"  value="Unlike">
+                            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                        </form>
+                    {% else %}
+                        <form action="/forums/{{forum.id}}/posts/{{post.id}}/like" method="POST">
+                            <input type="submit"  value="Like">
+                            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </p>
         </div>
     {% endfor %}
 {% endblock %}
