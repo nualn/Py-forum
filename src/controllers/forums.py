@@ -5,9 +5,9 @@ def get_forums():
     result = db.session.execute(sql)
     return result.fetchall()
 
-def get_forum(id):
+def get_forum(forum_id):
     sql = "SELECT id, name, description FROM Forums WHERE id=:id"
-    result = db.session.execute(sql, {"id":id})
+    result = db.session.execute(sql, {"id":forum_id})
     return result.fetchone()
 
 def create_forum(name, description):
