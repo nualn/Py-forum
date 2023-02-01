@@ -19,7 +19,7 @@ CREATE TABLE Posts (
         ON DELETE CASCADE,
     forum_id INTEGER NOT NULL REFERENCES Forums(id)
         ON DELETE CASCADE,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE Comments (
@@ -29,7 +29,7 @@ CREATE TABLE Comments (
         ON DELETE CASCADE,
     post_id INTEGER NOT NULL REFERENCES Posts(id)
         ON DELETE CASCADE,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE Likes_posts (
@@ -63,3 +63,15 @@ CREATE TABLE Dislikes_comments (
         ON DELETE CASCADE,
     PRIMARY KEY (user_id, comment_id)
 );
+
+INSERT INTO Users 
+    (username, password, is_admin)
+    VALUES 
+    ('admin', 'pbkdf2:sha256:260000$BgHbS7jwoH6b0rwV$c6b5d0ca8c3ee673de0395e3f2e9404ba2abb75297e4f01321378057bc967663', TRUE);
+
+INSERT INTO Forums
+    (name, description)
+    VALUES
+    ('General', 'General discussion about anything'),
+    ('Programming', 'Programming related discussions'),
+    ('Study', 'Study related discussions');
