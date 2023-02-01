@@ -13,12 +13,12 @@ def get_posts_by_forum(forum_id):
 
 def get_post(post_id):
     sql = """
-        SELECT id, title, body, created_at, modified_at, user_id 
+        SELECT id, title, body, created_at, modified_at, user_id, forum_id 
         FROM Posts 
         WHERE id=:id
     """
     result = db.session.execute(sql, {"id": post_id})
-    return result
+    return result.fetchone()
 
 def create_post(forum_id, title, body):
     try:

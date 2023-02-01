@@ -36,12 +36,10 @@ def logout():
     del session["csrf_token"]
 
 def check_csrf():
-    print(session["csrf_token"])
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
 
 def check_admin():
-    print(session["is_admin"])
     if not session["is_admin"]:
         abort(403)
 
