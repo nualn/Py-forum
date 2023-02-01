@@ -5,6 +5,22 @@
     <p>{{ post.body }}</p>
     <p>{{ post.comment_count }} comments</p>
     <p>{{ post.author }}</p>
+    <p>
+        {{ post.like_count }} likes
+        {% if session.user_id %}
+            {% if post.liked_by_curr_user %}
+                <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/unlike" method="POST">
+                    <input type="submit"  value="Unlike">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                </form>
+            {% else %}
+                <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/comments/like" method="POST">
+                    <input type="submit"  value="Like">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                </form>
+            {% endif %}
+        {% endif %}
+    </p>
     {% if session.user_id == post.user_id %}
         <form action="/forums/{{post.forum_id}}/posts/{{post.id}}/delete" method="POST">
             <input type="submit"  value="Delete">
