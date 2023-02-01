@@ -3,16 +3,30 @@ from flask import session
 
 def get_comments_by_post(post_id):
     sql = """
-        SELECT  id, 
-                body, 
-                created_at, 
-                modified_at, 
-                user_id 
-        FROM Comments 
-        WHERE post_id=:post_id
-        ORDER BY created_at ASC;
+        SELECT
+            Comments.id,
+            Comments.body,
+            Comments.created_at,
+            Comments.user_id,
+            Users.username as author,
+            count(Likes_comments.comment_id) as like_count,
+            Sum(
+              CASE
+                WHEN Likes_comments.user_id = :curr_user_id THEN 1
+                ELSE 0
+              END
+            ) as liked_by_curr_user
+        FROM
+            Comments
+            LEFT JOIN Users ON Users.id = Comments.user_id
+            LEFT JOIN Likes_comments ON Likes_comments.comment_id = Comments.id
+        WHERE
+            post_id = :post_id
+        GROUP BY Comments.id, Users.username
+        ORDER BY
+            created_at ASC; 
     """
-    result = db.session.execute(sql, {"post_id":post_id})
+    result = db.session.execute(sql, {"post_id":post_id, "curr_user_id":session.get("user_id")})
     return result.fetchall()
 
 def get_comment(comment_id):
