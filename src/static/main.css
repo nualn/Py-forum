@@ -133,7 +133,7 @@ textarea {
     margin: 0
 } 
 
-.like-button, .delete-button {
+.like-button, .delete-button, .button {
     display: flexbox;
     background-color: rgb(75, 75, 75);
     border: 1px solid rgb(50, 50, 50);
