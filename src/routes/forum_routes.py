@@ -3,7 +3,7 @@ from flask import render_template, request, redirect
 from controllers import users, forums
 
 @app.route("/forums", methods=["GET", "POST"])
-def show_forums():
+def forums_handler():
     if request.method == "GET":
         forums_list = forums.get_forums()
         return render_template("forums.html", forums=forums_list)

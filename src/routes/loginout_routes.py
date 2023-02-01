@@ -3,7 +3,7 @@ from flask import request, redirect, render_template
 from controllers import users
 
 @app.route("/login", methods=["GET", "POST"])
-def login():
+def login_handler():
     if request.method == "GET":
         return render_template("login.html")
     if request.method == "POST":
@@ -15,7 +15,7 @@ def login():
             return render_template("error.html", message="Invalid username or password")
 
 @app.route("/register", methods=["GET", "POST"])
-def register():
+def register_handler():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
@@ -30,6 +30,6 @@ def register():
             return render_template("error.html", message="Registration failed")
             
 @app.route("/logout")
-def logout():
+def logout_handler():
     users.logout()
     return redirect("/")
