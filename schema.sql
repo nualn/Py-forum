@@ -11,14 +11,6 @@ CREATE TABLE Forums (
     description TEXT NOT NULL
 );
 
-CREATE TABLE Following (
-    user_id INTEGER NOT NULL REFERENCES Users(id)
-        ON DELETE CASCADE,
-    forum_id INTEGER NOT NULL REFERENCES Forums(id)
-        ON DELETE CASCADE,
-    PRIMARY KEY (user_id, forum_id)
-);
-
 CREATE TABLE Posts (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -28,7 +20,6 @@ CREATE TABLE Posts (
     forum_id INTEGER NOT NULL REFERENCES Forums(id)
         ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    modified_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE Comments (
@@ -39,7 +30,6 @@ CREATE TABLE Comments (
     post_id INTEGER NOT NULL REFERENCES Posts(id)
         ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    modified_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE Likes_posts (
