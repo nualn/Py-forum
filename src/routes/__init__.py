@@ -3,4 +3,5 @@ from routes import \
     forum_routes,\
     loginout_routes,\
     post_routes,\
-    comment_routes
+    comment_routes,\
+    profile_routes
