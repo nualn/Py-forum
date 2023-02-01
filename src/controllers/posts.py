@@ -3,41 +3,57 @@ from flask import session
 
 def get_posts_by_forum(forum_id):
     sql = """
-        SELECT  Posts.id, 
-                Posts.title, 
-                Posts.body, 
-                Posts.created_at, 
-                Posts.user_id,
-                Users.username as author,
-                count(Comments.post_id) as comment_count
-        FROM Posts 
-        	LEFT JOIN Comments ON Comments.post_id = Posts.id
+        SELECT
+            Posts.id,
+            Posts.title,
+            Posts.body,
+            Posts.created_at,
+            Posts.user_id,
+            Users.username as author,
+            count(Comments.post_id) as comment_count,
+            count(Likes_posts.post_id) / count(Comments.post_id) as like_count, 
+            Sum(CASE WHEN Likes_posts.user_id = :curr_user_id THEN 1 ELSE 0 END) / count(Comments.post_id) as liked_by_curr_user
+        FROM
+            Posts
             LEFT JOIN Users ON Users.id = Posts.user_id
-        WHERE forum_id=:forum_id
-        GROUP BY Posts.id, Users.username
-        ORDER BY Posts.created_at DESC; 
+            LEFT JOIN Likes_posts ON Likes_posts.post_id = Posts.id
+            LEFT JOIN Comments ON Comments.post_id = Posts.id
+        WHERE
+            forum_id = 1
+        GROUP BY
+            Posts.id,
+            Users.username
+        ORDER BY
+            Posts.created_at DESC; 
     """
-    result = db.session.execute(sql, {"forum_id":forum_id})
+    result = db.session.execute(sql, {"forum_id":forum_id, "curr_user_id":session.get("user_id")})
     return result.fetchall()
 
 def get_post(post_id):
     sql = """
-        SELECT  Posts.id, 
-                Posts.title, 
-                Posts.body, 
-                Posts.created_at, 
-                Posts.forum_id,
-                Posts.user_id,
-                Users.username as author,
-                count(Comments.post_id) as comment_count
-        FROM Posts 
-        	LEFT JOIN Comments ON Comments.post_id = Posts.id
+        SELECT
+            Posts.id,
+            Posts.title,
+            Posts.body,
+            Posts.created_at,
+            Posts.forum_id,
+            Posts.user_id,
+            Users.username as author,
+            count(Comments.post_id) as comment_count,
+            count(Likes_posts.post_id) / count(Comments.post_id) as like_count, 
+            Sum(CASE WHEN Likes_posts.user_id = :curr_user_id THEN 1 ELSE 0 END) / count(Comments.post_id) as liked_by_curr_user
+        FROM
+            Posts
             LEFT JOIN Users ON Users.id = Posts.user_id
-        WHERE Posts.id=:post_id
-        GROUP BY Posts.id, Users.username
-        ORDER BY Posts.created_at DESC; 
+            LEFT JOIN Likes_posts ON Likes_posts.post_id = Posts.id
+            LEFT JOIN Comments ON Comments.post_id = Posts.id
+        WHERE 
+            Posts.id=:post_id
+        GROUP BY
+            Posts.id,
+            Users.username
     """
-    result = db.session.execute(sql, {"post_id": post_id})
+    result = db.session.execute(sql, {"post_id": post_id, "curr_user_id":session.get("user_id")})
     return result.fetchone()
 
 def create_post(forum_id, title, body):
