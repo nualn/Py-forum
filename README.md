@@ -72,4 +72,4 @@ python3 init_db.py
 flask --app src/app.py run
 ```
 
-9. Access the application at http://localhost:5000
+9. Access the application at http://localhost:5000. You can register a new account or log in with the default user `admin` with password `admin`
