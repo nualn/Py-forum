@@ -27,7 +27,7 @@ def get_comments_by_post(post_id):
     return result.fetchall()
 
 def get_comment(comment_id):
-    sql = "SELECT * FROM Comments WHERE id=:comment_id;"
+    sql = "SELECT id, body, user_id, post_id, created_at FROM Comments WHERE id=:comment_id;"
     result = db.session.execute(sql, {"comment_id":comment_id})
     return result.fetchone()
 
