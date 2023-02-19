@@ -1,8 +1,8 @@
-# ChatApp
+# Py-forum
 **Note** 
 This application is not deployed anywhere. You can run it locally by following the instructions below.
 
-Welcome to the ChatApp! This is a simple forum type web app that enables you to chat with other users.
+This is a simple forum type web app that enables you to chat with other users. Written in python and powered by Flask.
 
 ## Features
 
